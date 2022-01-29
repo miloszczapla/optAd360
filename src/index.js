@@ -1,6 +1,35 @@
 const DATA_END_POINT =
   'https://randomuser.me/api/?results=1000&nat=fr&gender=male';
 
+const button = document.querySelector('#button');
+const chart = document.querySelector('#myChart');
+const table = document.querySelector('#table');
+
+button.addEventListener('click', swich);
+function swich() {
+  //get data from session storage
+  const state = JSON.parse(sessionStorage.getItem('state'));
+  if (state === null) state = 0;
+  switch (state) {
+    case 0:
+      sessionStorage.setItem('state', 1);
+      table.classList.remove('hidden');
+      chart.classList.add('hidden');
+      button.innerText = 'Chart';
+
+      break;
+    case 1:
+      sessionStorage.setItem('state', 0);
+      chart.classList.remove('hidden');
+      table.classList.add('hidden');
+      button.innerText = 'Table';
+
+      break;
+    default:
+      break;
+  }
+}
+
 async function fetchData() {
   const response = await fetch(DATA_END_POINT);
   const data = await response.json();
@@ -30,7 +59,6 @@ function hydrateTable(data, viewportWidth) {
     (a, b) => new Date(a.dob.date).getTime() - new Date(b.dob.date).getTime(),
   );
   const oldestTen = sortedData.slice(0, 10);
-  const table = document.querySelector('#table');
   const headers = ['Name', 'Picture', 'Age', 'Email', 'Phone', 'Address'];
 
   if (viewportWidth > 768) {
@@ -79,34 +107,62 @@ function hydrateTable(data, viewportWidth) {
   });
 }
 
-function createChart() {
-  const ctx = document.getElementById('myChart').getContext('2d');
+function createChart(data) {
+  const labels = [
+    '0-9',
+    '10-19',
+    '20-29',
+    '30-39',
+    '40-59',
+    '50-59',
+    '60-69',
+    '70-79',
+    '80-89',
+    '90-99',
+    '100+',
+  ];
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+  const bgColors = [
+    'rgba(237, 102, 37, 0.8)',
+    'rgba(0, 0, 223, 0.2)',
+    'rgba(129, 48, 234, 0.9)',
+    'rgba(189, 71, 150, 0.8)',
+    'rgba(200, 209, 79, 0.3)',
+    'rgba(36, 50, 60, 0.2)',
+    'rgba(35, 124, 150, 0.5)',
+    'rgba(130, 86, 10, 0.2)',
+    'rgba(50, 67, 215, 0.3)',
+    'rgba(157, 144, 124, 0.2)',
+  ];
 
-  const data = {
+  const ageRangesArray = data.reduce(
+    (ageRanges, man) => {
+      const age = man.dob.age;
+      const id = Math.floor(age / 10);
+      ageRanges[id] = ageRanges[id] + 1;
+      return ageRanges;
+    },
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  );
+
+  const chartData = {
     labels: labels,
     datasets: [
       {
-        label: 'My First dataset',
-        backgroundColor: 'rgb(255, 99, 132)',
+        label: 'Mens per age range',
+        backgroundColor: bgColors,
         borderColor: 'rgb(255, 99, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45],
+        data: ageRangesArray,
       },
     ],
   };
 
   const config = {
-    type: 'line',
-    data: data,
-    options: {
-      title: {
-        display: true,
-        text: 'xdede',
-      },
-    },
+    type: 'bar',
+    data: chartData,
+    options: {},
   };
-  const myChart = new Chart(ctx, config);
+  const myChart = new Chart(chart, config);
 }
 
 async function onStart() {
@@ -114,12 +170,12 @@ async function onStart() {
   const paragraph = document.querySelector('#bottom-paragraph');
 
   changeBacgroundEveryFifthRefreash(paragraph);
-  // const button = document.querySelector('#button');
   const loader = document.querySelector('#loader');
   const data = await fetchData();
-  createChart();
+  createChart(data);
   hydrateTable(data, viewportWidth);
   loader.style.display = 'none';
+  chart.classList.remove('hidden');
+  button.classList.remove('nonclickable');
 }
-
 onStart();
