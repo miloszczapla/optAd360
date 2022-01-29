@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script src="index.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="index.js" type="module" defer></script>
     <title>optAd360 task</title>
   </head>
   <body>
@@ -31,7 +32,7 @@
     </p>
     <main>
       <img id="loader" src="./assets/loader.svg" alt="loading..." />
-      <div id="chart">wykres</div>
+      <canvas id="myChart" width="400" height="400"></canvas>
       <table id="table"></table>
       <button id="button">tabela</button>
     </main>

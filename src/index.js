@@ -79,15 +79,45 @@ function hydrateTable(data, viewportWidth) {
   });
 }
 
+function createChart() {
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'My First dataset',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 10, 5, 2, 20, 30, 45],
+      },
+    ],
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      title: {
+        display: true,
+        text: 'xdede',
+      },
+    },
+  };
+  const myChart = new Chart(ctx, config);
+}
+
 async function onStart() {
   const viewportWidth = window.innerWidth;
   const paragraph = document.querySelector('#bottom-paragraph');
 
   changeBacgroundEveryFifthRefreash(paragraph);
   // const button = document.querySelector('#button');
-  // const chart = document.querySelector('#chart');
   const loader = document.querySelector('#loader');
   const data = await fetchData();
+  createChart();
   hydrateTable(data, viewportWidth);
   loader.style.display = 'none';
 }
