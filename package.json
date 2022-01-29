@@ -1,0 +1,61 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "y",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miloszczapla/optAd360.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miloszczapla/optAd360/issues"
+  },
+  "homepage": "https://github.com/miloszczapla/optAd360#readme",
+  "dependencies": {
+    "chart.js": "^3.7.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "arrow-body-style": "warn",
+      "dot-notation": "warn",
+      "no-var": "error",
+      "no-debugger": "error",
+      "no-duplicate-imports": "error",
+      "no-multi-spaces": "warn",
+      "object-shorthand": "error",
+      "eqeqeq": [
+        "error",
+        "smart"
+      ],
+      "prefer-arrow-callback": "warn",
+      "space-before-function-paren": [
+        "warn",
+        {
+          "anonymous": "ignore",
+          "named": "never",
+          "asyncArrow": "always"
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
+}
