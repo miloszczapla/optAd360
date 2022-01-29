@@ -24,12 +24,41 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: scroll;
 }
 
 #loader {
   height: 80px;
   duration: 1s;
   animation: rotate 1.5s linear infinite;
+}
+
+#table {
+  border-collapse: collapse;
+  padding: 0 25px;
+}
+
+th,
+td {
+  min-width: 50px;
+  padding: 10px;
+}
+
+th {
+  background-color: #dff4fa;
+}
+
+tr {
+  border: 1px solid #757974;
+}
+
+.divider {
+  height: 20px;
+  border: none !important;
+}
+
+#table td {
+  padding: 0.5rem;
 }
 
 @keyframes rotate {
